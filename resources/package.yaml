@@ -1,0 +1,79 @@
+name:                cis1940-resources
+version:             0.1.0.0
+github:              wwmoraes/cis1940/resources
+license:             MIT
+author:              William Artero
+maintainer:          haskell@artero.dev
+copyright:           2023 William Artero
+
+extra-source-files:
+- README.md
+- CHANGELOG.md
+
+data-dir: data
+data-files:
+- '*.txt'
+- '*.log'
+
+synopsis:            CIS 194 homework assignment resources
+category:            Command Line
+description:         Please see the README on GitHub at <https://github.com/wwmoraes/cis1940#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+ghc-options:
+- -Wall
+# - -Wcompat
+# - -Widentities
+# - -Wincomplete-record-updates
+# - -Wincomplete-uni-patterns
+# - -Wmissing-export-lists
+# - -Wmissing-home-modules
+# - -Wpartial-fields
+# - -Wredundant-constraints
+
+build-tools: hspec-discover
+
+_without-path: &_without-path
+  when:
+  - condition: false
+    other-modules: Paths_cis1940_resources
+
+_with-path: &_with-path
+  when:
+  - condition: true
+    other-modules: Paths_cis1940_resources
+
+_common: &_common
+  ghc-options:
+  - -threaded
+  - -rtsopts
+  - -with-rtsopts=-N
+
+library:
+  <<: *_without-path
+  source-dirs: src
+  dependencies:
+  - mtl
+  - containers
+  - MonadRandom
+
+executables:
+  StringBufEditor:
+    <<: [*_common, *_without-path]
+    main:                StringBufEditor.hs
+    source-dirs:         app/homework7
+    dependencies:
+    - cis1940-resources
+
+tests:
+  cis1940-resources-test:
+    <<: [*_common, *_with-path]
+    main:                Spec.hs
+    source-dirs:         test
+    dependencies:
+    - cis1940-resources
+    - containers
+    - hspec
+    - MonadRandom

@@ -1,0 +1,110 @@
+name:                cis1940-solutions
+version:             0.1.0.0
+github:              wwmoraes/cis1940/solutions
+license:             MIT
+author:              William Artero
+maintainer:          haskell@artero.dev
+copyright:           2023 William Artero
+
+extra-source-files:
+- README.md
+- CHANGELOG.md
+
+data-dir: data
+data-files:
+- '*.log'
+- '*.txt'
+
+synopsis:            CIS 194 homework assignment solutions
+category:            Command Line
+description:         Please see the README on GitHub at <https://github.com/wwmoraes/cis1940#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- cis1940-resources
+
+ghc-options:
+- -Wall
+# - -Werror
+# - -Wcompat
+# - -Widentities
+# - -Wincomplete-record-updates
+# - -Wincomplete-uni-patterns
+# - -Wmissing-export-lists
+# - -Wmissing-home-modules
+# - -Wpartial-fields
+# - -Wredundant-constraints
+
+build-tools: hspec-discover
+
+_without-path: &_without-path
+  when:
+  - condition: false
+    other-modules: Paths_cis1940_solutions
+
+_with-path: &_with-path
+  when:
+  - condition: true
+    other-modules: Paths_cis1940_solutions
+
+_common: &_common
+  ghc-options:
+  - -threaded
+  - -rtsopts
+  - -with-rtsopts=-N
+
+_bin: &_bin
+  <<: *_common
+  main: Main.hs
+  dependencies:
+  - cis1940-solutions
+
+_perf: &_perf
+  <<: *_common
+  main: Main.hs
+  dependencies:
+  - cis1940-solutions
+  - criterion
+  - random
+
+_test: &_test
+  <<: *_common
+  dependencies:
+  - cis1940-solutions
+  - containers
+  - hspec
+  - QuickCheck
+  - MonadRandom
+
+library:
+  <<: *_without-path
+  source-dirs: src
+  dependencies:
+  - containers
+  - mtl
+  - MonadRandom
+
+executables:
+  homework1:
+    <<: [*_bin, *_without-path]
+    source-dirs: homework1/app
+  homework2:
+    <<: [*_bin, *_with-path]
+    source-dirs: homework2/app
+  homework7:
+    <<: [*_bin, *_without-path]
+    source-dirs: homework7/app
+  homework8:
+    <<: [*_bin, *_with-path]
+    source-dirs: homework8/app
+
+benchmarks:
+  homework1-perf:
+    <<: [*_perf, *_without-path]
+    source-dirs: homework1/benchmark
+
+tests:
+  test:
+    <<: [*_test, *_with-path]
+    main: Spec.hs
+    source-dirs: test

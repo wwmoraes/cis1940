@@ -1,0 +1,103 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.35.1.
+--
+-- see: https://github.com/sol/hpack
+
+name:           cis1940-resources
+version:        0.1.0.0
+synopsis:       CIS 194 homework assignment resources
+description:    Please see the README on GitHub at <https://github.com/wwmoraes/cis1940#readme>
+category:       Command Line
+homepage:       https://github.com/wwmoraes/cis1940#readme
+bug-reports:    https://github.com/wwmoraes/cis1940/issues
+author:         William Artero
+maintainer:     haskell@artero.dev
+copyright:      2023 William Artero
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+data-files:
+    carol.txt
+    empty.log
+data-dir:       data
+
+source-repository head
+  type: git
+  location: https://github.com/wwmoraes/cis1940
+  subdir: resources
+
+library
+  exposed-modules:
+      Provided
+      Provided.AParser
+      Provided.AParser2
+      Provided.Buffer
+      Provided.Editor
+      Provided.Employee
+      Provided.ExprT
+      Provided.JoinList
+      Provided.Log
+      Provided.Parser
+      Provided.Risk
+      Provided.Sized
+      Provided.StackVM
+      Provided.StringBuffer
+      Provided.Wholemeal
+  hs-source-dirs:
+      src
+  ghc-options: -Wall
+  build-tool-depends:
+      hspec-discover:hspec-discover
+  build-depends:
+      MonadRandom
+    , base >=4.7 && <5
+    , containers
+    , mtl
+  default-language: Haskell2010
+
+executable StringBufEditor
+  main-is: StringBufEditor.hs
+  hs-source-dirs:
+      app/homework7
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  build-tool-depends:
+      hspec-discover:hspec-discover
+  build-depends:
+      base >=4.7 && <5
+    , cis1940-resources
+  default-language: Haskell2010
+
+test-suite cis1940-resources-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      EditorSpec
+      EmployeeSpec
+      ExprTSpec
+      JoinListSpec
+      LogSpec
+      ParserSpec
+      RiskSpec
+      SizedSpec
+      SpecHook
+      StackVMSpec
+      StringBufferSpec
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  build-tool-depends:
+      hspec-discover:hspec-discover
+  build-depends:
+      MonadRandom
+    , base >=4.7 && <5
+    , cis1940-resources
+    , containers
+    , hspec
+  default-language: Haskell2010
+  if true
+    other-modules:
+        Paths_cis1940_resources
